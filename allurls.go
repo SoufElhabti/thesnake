@@ -13,7 +13,7 @@ func takescreenshot(url string, index string) {
 
 	app := "google-chrome-stable"
 
-	agruments := "--headless  --timeout 30000 --disable-gpu --enable-logging --screenshot=\""
+	agruments := "--headless  --timeout=30000 --disable-gpu --enable-logging --screenshot=\""
 
 	cmd := app + " " + agruments + "./out/" + index + ".jpg" + "\" " + url
 	fmt.Println("[+] executing : ", cmd)
