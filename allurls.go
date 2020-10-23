@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 )
 
 func takescreenshot(url string, index string) {
@@ -25,7 +26,9 @@ func takescreenshot(url string, index string) {
 	err1 := out.Run()
 	if err1 != nil {
 		log.Fatal(err1)
+		return "[!] error"
 	}
+	return "[+] Done"
 
 }
 
@@ -42,6 +45,7 @@ func main() {
 		log.Fatal(err)
 
 	}
+	c1 := make(chan string, 1)
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -50,8 +54,16 @@ func main() {
 		S2 = strings.Replace(S2, "http:", "", -1)
 		S2 = strings.Replace(S2, "https:", "", -1)
 		S2 = strings.Replace(S2, "/", "", -1)
-
-		takescreenshot(S1, S2)
+		go func() {
+			text := takescreenshot(S1, S2)
+			c1 <- text
+		}()
+		select {
+		case res := <-c1:
+			fmt.Println(res)
+		case <-time.After(3 * time.Second):
+			fmt.Println("[!] Timeout !! too many redirections or dead asset -_-'")
+		}
 
 	}
 	if err := scanner.Err(); err != nil {
