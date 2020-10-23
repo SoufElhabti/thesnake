@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func takescreenshot(url string, index string) {
+func takescreenshot(url string, index string) string {
 
 	app := "google-chrome-stable"
 
