@@ -61,7 +61,7 @@ func main() {
 		select {
 		case res := <-c1:
 			fmt.Println(res)
-		case <-time.After(3 * time.Second):
+		case <-time.After(5 * time.Second):
 			fmt.Println("[!] Timeout !! too many redirections or dead asset -_-'")
 		}
 
